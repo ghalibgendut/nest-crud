@@ -54,7 +54,7 @@ export class BooksService {
     }
 
     async deleteBook (id: string){
-        const result = await this.bookModel.deleteOne({_: id}).exec()
+        const result = await this.bookModel.deleteOne({_id: id}).exec()
         if (result.n === 0) {
             throw new NotFoundException(`Could not find book.`)
         }

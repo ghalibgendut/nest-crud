@@ -35,8 +35,42 @@ export class UsersController {
        }
     }
 
-    @Get('oneUser/:id')
+    @Get('userById/:id')
     async getOneUser(@Param('id') id: string){
         return this.userService.findOneUser(id)
+    }
+
+    @Patch(`updateUser/:id`)
+    async updateUser (
+        @Param(`id`) id: string,
+        @Body(`username`) username: string,
+        @Body(`email`) email: string,
+        @Body(`password`) password: string,
+        @Body(`name`) name: string
+    ){
+        const user = await this.userService.updateUser(
+            id,
+            username,
+            email,
+            password,
+            name
+        )
+        return {
+            statusCode: HttpStatus.OK,
+            message: `Update successfully`,
+            data: user
+        }
+    }
+
+    @Delete(`deleteUser/:id`)
+    async deleteUser(@Param(`id`) id: string){
+        const isDeleted = await this. userService.deleteUser(id)
+        if (isDeleted) {
+            return {
+                statusCode: HttpStatus.OK,
+                message: `User Deleted`,
+                data: isDeleted
+            }
+        }
     }
 }

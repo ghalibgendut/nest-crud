@@ -39,4 +39,30 @@ export class UsersService {
             name: user.name
         }
     }
+
+    async updateUser (id: string, username: string, email: string, password: string, name: string){
+        const update = await this.userModel.findById(id).exec()
+        if (username) {
+            update.username = username
+        }
+        if (email) {
+            update.email = email
+        }
+        if (password) {
+            update.password = password
+        }
+        if (name) {
+            update.name = name
+        }
+        update.save()
+        return update
+    }
+
+    async deleteUser(id: string){
+        const result = await this.userModel.deleteOne({_id: id}).exec()
+        if (result.n === 0) {
+            throw new NotFoundException(`Could not find user.`)
+        }
+        return true
+    }
 }
