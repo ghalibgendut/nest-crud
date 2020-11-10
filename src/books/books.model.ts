@@ -8,7 +8,7 @@ export const BooksSchema = new mongoose.Schema({
         type: String, required: true
     },
     price: {
-        type: String, required: true
+        type: Number, required: true
     }
 })
 
