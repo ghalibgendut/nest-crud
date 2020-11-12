@@ -45,14 +45,12 @@ export class UsersController {
         @Param(`id`) id: string,
         @Body(`username`) username: string,
         @Body(`email`) email: string,
-        @Body(`password`) password: string,
         @Body(`name`) name: string
     ){
         const user = await this.userService.updateUser(
             id,
             username,
             email,
-            password,
             name
         )
         return {

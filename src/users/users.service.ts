@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { User } from "./users.model";
+import { User, UserDocument } from "./users.model";
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel('User') private readonly userModel: Model <User>) {}
+    // constructor(@InjectModel('User') private readonly userModel: Model <User>) {} --> ini digunakan ketika menggunakan cara ke-2
+    constructor(@InjectModel('User') private readonly userModel: Model <UserDocument>) {}
 
     async registerUser(username: string, email: string, password: string, name: string){
         let pass = await bcrypt.hash(password, 10)
@@ -43,22 +44,28 @@ export class UsersService {
         }
     }
 
-    async updateUser (id: string, username: string, email: string, password: string, name: string){
-        const update = await this.userModel.findById(id).exec()
+    async updateUser (id: string, username: string, email: string, name: string){
+        const updateData = await this.userModel.findById(id).exec()
+
         if (username) {
-            update.username = username
+            updateData.username = username
         }
         if (email) {
-            update.email = email
-        }
-        if (password) {
-            update.password = password
+            updateData.email = email
         }
         if (name) {
-            update.name = name
+            updateData.name = name
         }
-        update.save()
-        return update
+        // await updateData.save()
+        const updateData2 = await this.userModel.findByIdAndUpdate(id, {$set : {
+            username,
+            email,
+            name
+        }},{new : true})
+
+        console.log(updateData2)
+        // // await this.userModel.findByIdAndUpdate({_id: id}, data)
+        return updateData
     }
 
     async deleteUser(id: string){
