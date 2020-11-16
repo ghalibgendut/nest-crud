@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Patch, Delete, HttpStatus } from '@nestjs/common';
 import { UsersService } from "./users.service";
-import { UserDto } from "./userDto/user.dto";
+import { UserRegisterDto } from "./userDto/user.registerDto";
 import { LoginDto } from "./userDto/user.loginDto";
 
 @Controller('users')
@@ -8,7 +8,7 @@ export class UsersController {
     constructor (private readonly userService: UsersService) {}
 
     @Post('register')
-    async registerUser (@Body() body: UserDto){
+    async registerUser (@Body() body: UserRegisterDto){
         const user = await this.userService.registerUser(body)
         return {
             statusCode: HttpStatus.OK,

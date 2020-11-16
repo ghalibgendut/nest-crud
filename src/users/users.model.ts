@@ -2,6 +2,7 @@
 // import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as mongoose from 'mongoose' //--> digunakan untuk cara ke-2
 import * as bcrypt from 'bcrypt'
+import { TimeoutError } from 'rxjs'
 // export type UserDocument = User & Document
 
 // // Cara pertama
@@ -29,16 +30,16 @@ import * as bcrypt from 'bcrypt'
 
 const UserSchema = new mongoose.Schema({
     username: {
-        type: String, required:true
+        type: String, unique: true
     },
     email: {
-        type: String, required: true
+        type: String, unique: true
     },
     password: {
-        type: String, required: true
+        type: String
     },
     name: {
-        type: String, required: true
+        type: String
     }
 })
 

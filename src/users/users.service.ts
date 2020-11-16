@@ -2,9 +2,7 @@ import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException 
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User } from "./users.model";
-import * as bcrypt from 'bcrypt'
 import { AuthService } from '../auth/auth.service';
-import { query } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -37,7 +35,7 @@ export class UsersService {
     }
 
     async findAllUsers() {
-        const users = await this.userModel.find().exec()
+        const users = await this.userModel.find()
         return users
     }
 
@@ -60,7 +58,7 @@ export class UsersService {
     }
 
     async findOneUser(id: string) {
-        const user = await this.userModel.findById(id).exec()
+        const user = await this.userModel.findById(id)
         return {
             id: user.id,
             username: user.username,
@@ -71,12 +69,12 @@ export class UsersService {
     }
 
     async findByQuery(query){
-        const user = await this.userModel.findOne(query).exec()
+        const user = await this.userModel.findOne(query)
         return user
     }
 
     async updateUser(id: string, username: string, email: string, name: string) {
-        const updateData = await this.userModel.findById(id).exec()
+        const updateData = await this.userModel.findById(id)
 
         if (username) {
             updateData.username = username
@@ -102,7 +100,7 @@ export class UsersService {
     }
 
     async deleteUser(id: string) {
-        const result = await this.userModel.deleteOne({ _id: id }).exec()
+        const result = await this.userModel.deleteOne({ _id: id })
         if (result.n === 0) {
             throw new NotFoundException(`Could not find user.`)
         }
