@@ -8,46 +8,32 @@ import { Book } from "./books.model";
 export class BooksService {
     constructor(@InjectModel('Book') private readonly bookModel: Model <Book>){}
 
-    async addBook(title: string, desc: string, price: number){
-        const newBook = new this.bookModel({
-            title,
-            description: desc,
-            price
-        })
+    async addBook(body){
+        const newBook = new this.bookModel(body)
         const result = await newBook.save()
         return result
     }
 
     async findAllBooks(){
-        const books = await this.bookModel.find().exec()
-        return books.map(book => ({
-            id: book.id,
-            title: book.title,
-            description: book.description,
-            price: book.price
-        }))
+        const books = await this.bookModel.find()
+        return books
     }
 
     async fineOneBook(id: string){
         const book = await this.findBook(id)
-        return {
-            id: book.id,
-            title: book.title,
-            description: book.description,
-            price: book.price
-        }
+        return book
     }
 
-    async update (id: string, title: string, desc: string, price: number){
+    async update (id: string, body){
         const updateBook = await this.findBook(id)
-        if (title) {
-            updateBook.title = title
+        if (body.title) {
+            updateBook.title = body.title
         }
-        if (desc) {
-            updateBook.description = desc
+        if (body.desc) {
+            updateBook.description = body.desc
         }
-        if (price) {
-            updateBook.price = price
+        if (body.price) {
+            updateBook.price = body.price
         }
         updateBook.save()
         return updateBook

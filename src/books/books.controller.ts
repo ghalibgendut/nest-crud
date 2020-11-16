@@ -1,22 +1,15 @@
 import { Controller, Get, Post, Body, Param, Patch, Delete, HttpStatus } from '@nestjs/common';
 import { BooksService } from "./books.service";
+import { AddBooksDto } from "./booksDto/books.addBooksDto";
+import { UpdateBookDto } from "./booksDto/books.updateBookDto";
 
 @Controller('books')
 export class BooksController {
     constructor (private readonly booksService: BooksService) {}
     
     @Post('add')
-    async addBook (
-        @Body('title') bookTitle: string,
-        @Body('description') bookDesc: string,
-        @Body('price') bookPrice: number
-    ){
-        const book = await this.booksService.addBook(
-            bookTitle,
-            bookDesc,
-            bookPrice
-        )
-
+    async addBook (@Body() body: AddBooksDto){
+        const book = await this.booksService.addBook(body)
         return {
             statusCode: HttpStatus.OK,
             message: 'Book added',
@@ -36,18 +29,8 @@ export class BooksController {
     }
 
     @Patch(`:id`)
-    async updateBook(
-        @Param('id') id: string,
-        @Body('title') bookTitle: string,
-        @Body('description') bookDesc: string,
-        @Body('price') bookPrice: number
-    ){
-        const book = await this.booksService.update(
-            id,
-            bookTitle,
-            bookDesc,
-            bookPrice
-        )
+    async updateBook(@Param('id') id: string, @Body() body: UpdateBookDto){
+        const book = await this.booksService.update(id, body)
         return {
             statusCode: HttpStatus.OK,
             message: `Book Updated`,

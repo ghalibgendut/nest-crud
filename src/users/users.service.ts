@@ -13,16 +13,17 @@ export class UsersService {
     ) { } //--> ini digunakan ketika menggunakan cara ke-2
     // constructor(@InjectModel('User') private readonly userModel: Model <UserDocument>) {}
 
-    async loginUser(body) {
+    async loginUser(body) {          
         const query = {}
         Object.assign(query, {username: body.username})
         const user = await this.findByQuery(query)
         if(!user) throw new BadRequestException("tidak ditemukan user")
+        await this.compPassword(user, body.password)
         const [accessToken, refreshToken] = await this.authService.login(body)
         return [accessToken, refreshToken, user]
     }
 
-    async comparePassword(user: any, password: string): Promise<boolean> {
+    async compPassword(user: any, password: string): Promise<boolean> {
         const res = await user.comparePassword(password);
         if (!res) throw new BadRequestException('Kata sandi salah');
         return res;
@@ -59,13 +60,7 @@ export class UsersService {
 
     async findOneUser(id: string) {
         const user = await this.userModel.findById(id)
-        return {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            password: user.password,
-            name: user.name
-        }
+        return user
     }
 
     async findByQuery(query){

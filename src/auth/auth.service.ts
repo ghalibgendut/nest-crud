@@ -17,7 +17,7 @@ export class AuthService {
     generateToken(body: GenerateTokenDto) {
         const accessToken = this.jwt.sign({ body }, { expiresIn: this.expired })
         const refreshToken = this.jwt.sign({}, { expiresIn: this.expired })
-        return [accessToken, refreshToken]
+        return [{accessToken: accessToken, refreshToken: refreshToken}]
     }
 
     async login(body: LoginDto) {
