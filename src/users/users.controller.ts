@@ -3,6 +3,7 @@ import { UsersService } from "./users.service";
 import { UserRegisterDto } from "./userDto/user.registerDto";
 import { LoginDto } from "./userDto/user.loginDto";
 import { UserUpdateDTO } from "./userDto/user.updateUserDto";
+import { UserChangePassDto } from "./userDto/user.changepassDto";
 
 @Controller('users')
 export class UsersController {
@@ -58,6 +59,17 @@ export class UsersController {
                 message: `User Deleted`,
                 data: isDeleted
             }
+        }
+    }
+
+    // ChangePassword
+    @Post('changePass/:id')
+    async changePassword(@Param(`id`) id: string, @Body() body:UserChangePassDto){
+        const user = await this.userService.updatePass(id, body)
+        return {
+            statusCode: HttpStatus.OK,
+            message: `Password Changed`,
+            data: user
         }
     }
 }

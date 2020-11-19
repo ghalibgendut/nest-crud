@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User } from "./users.model";
 import { AuthService } from '../auth/auth.service';
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersService {
@@ -29,6 +30,27 @@ export class UsersService {
         return res;
     }
 
+    // update password
+    async updatePass (id: string, body) {
+        const updateData = await this.userModel.findById(id)
+        
+        let compare = bcrypt.compareSync(body.oldPassword, updateData.password)
+        
+        if (!compare) throw new BadRequestException(`Kata sandi salah`)
+        
+        
+        if (body.newPassword === body.confirmPassword) {            
+            let pass = bcrypt.hashSync(body.newPassword, 10)   
+            const updatePass = await this.userModel.findByIdAndUpdate(id, {
+                $set: pass
+            }, {new: true})
+            return updatePass
+        }
+        
+        
+        
+    }
+
     async registerUser(body) {
         const newUser = new this.userModel(body)
         const result = await newUser.save()
@@ -37,7 +59,8 @@ export class UsersService {
 
     async findAllUsers() {
         const users = await this.userModel.find()
-        return users
+        const list = await this.list()
+        return [users, list]
     }
 
     // list user
@@ -81,8 +104,10 @@ export class UsersService {
             updateData.name = body.name
         }
         // await updateData.save()
+        console.log(body);
+        
         const updateData2 = await this.userModel.findByIdAndUpdate(id, {
-            $set: {body}
+            $set: body
         }, { new: true })
 
         console.log(updateData2)
