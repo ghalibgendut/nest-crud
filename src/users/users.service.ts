@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User } from "./users.model";
 import { AuthService } from '../auth/auth.service';
+import { MailerService } from "@nestjs-modules/mailer";
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -10,7 +11,8 @@ export class UsersService {
     constructor(
         @InjectModel('User') private readonly userModel: Model<User>,
         @Inject(forwardRef(() => AuthService))
-        private readonly authService: AuthService
+        private readonly authService: AuthService,
+        private readonly mailerService: MailerService
     ) { } //--> ini digunakan ketika menggunakan cara ke-2
     // constructor(@InjectModel('User') private readonly userModel: Model <UserDocument>) {}
 
@@ -118,5 +120,25 @@ export class UsersService {
             throw new NotFoundException(`Could not find user.`)
         }
         return true
+    }
+
+    public mailing(): void {
+        this
+            .mailerService
+            .sendMail({
+                to: `ghalibsasmito@gmail.com`,
+                from: 'putrinining89@gmail.com',
+                subject: 'Testing Nest Mailer',
+                text: 'Testing',
+                html: '<html><body><h1>WELCOME</h1></body></html>'
+            })
+            .then((result)=>{
+                console.log(result);
+                
+            })
+            .catch((err)=>{
+                console.log(err);
+                
+            })
     }
 }
