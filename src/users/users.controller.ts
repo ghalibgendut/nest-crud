@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, Patch, Delete, HttpStatus } from '@
 import { UsersService } from "./users.service";
 import { UserRegisterDto } from "./userDto/user.registerDto";
 import { LoginDto } from "./userDto/user.loginDto";
+import { UserUpdateDTO } from "./userDto/user.updateUserDto";
 
 @Controller('users')
 export class UsersController {
@@ -39,18 +40,8 @@ export class UsersController {
     }
 
     @Patch(`updateUser/:id`)
-    async updateUser (
-        @Param(`id`) id: string,
-        @Body(`username`) username: string,
-        @Body(`email`) email: string,
-        @Body(`name`) name: string
-    ){
-        const user = await this.userService.updateUser(
-            id,
-            username,
-            email,
-            name
-        )
+    async updateUser (@Param(`id`) id: string, @Body() body: UserUpdateDTO){
+        const user = await this.userService.updateUser(id, body)
         return {
             statusCode: HttpStatus.OK,
             message: `Update successfully`,

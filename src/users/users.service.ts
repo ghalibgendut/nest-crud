@@ -68,25 +68,21 @@ export class UsersService {
         return user
     }
 
-    async updateUser(id: string, username: string, email: string, name: string) {
+    async updateUser(id: string, body) {
         const updateData = await this.userModel.findById(id)
 
-        if (username) {
-            updateData.username = username
+        if (body.username) {
+            updateData.username = body.username
         }
-        if (email) {
-            updateData.email = email
+        if (body.email) {
+            updateData.email = body.email
         }
-        if (name) {
-            updateData.name = name
+        if (body.name) {
+            updateData.name = body.name
         }
         // await updateData.save()
         const updateData2 = await this.userModel.findByIdAndUpdate(id, {
-            $set: {
-                username,
-                email,
-                name
-            }
+            $set: {body}
         }, { new: true })
 
         console.log(updateData2)
