@@ -46,9 +46,6 @@ export class UsersService {
             }, {new: true})
             return updatePass
         }
-        
-        
-        
     }
 
     async registerUser(body) {
