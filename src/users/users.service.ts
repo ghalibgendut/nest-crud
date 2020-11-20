@@ -12,8 +12,7 @@ export class UsersService {
         @InjectModel('User') private readonly userModel: Model<User>,
         @Inject(forwardRef(() => AuthService))
         private readonly authService: AuthService,
-        private readonly mailerService: MailerService
-    ) { } //--> ini digunakan ketika menggunakan cara ke-2
+    ) {} //--> ini digunakan ketika menggunakan cara ke-2
     // constructor(@InjectModel('User') private readonly userModel: Model <UserDocument>) {}
 
     async loginUser(body) {          
@@ -121,23 +120,4 @@ export class UsersService {
         }
         return true
     }
-
-    public mailing(body): void {        
-        this
-            .mailerService
-            .sendMail({
-                to: `${body.email}`,
-                from: 'putrinining89@gmail.com',
-                subject: 'Testing Nest Mailer',
-                text: 'Testing',
-                html: '<h1>WELCOME</h1>'
-            })
-            .then((result)=>{
-                console.log(result);
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
-    }
-    
 }

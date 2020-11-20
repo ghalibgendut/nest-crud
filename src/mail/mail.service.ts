@@ -5,11 +5,11 @@ import { MailerService } from "@nestjs-modules/mailer";
 export class MailService {
     constructor (private readonly mailerService: MailerService) {}
 
-    public mailing(): void {
+    public mailing(body): void { 
         this
             .mailerService
             .sendMail({
-                to: `ghalibsasmito@gmail.com`,
+                to: `${body.email}`,
                 from: 'putrinining89@gmail.com',
                 subject: 'Testing Nest Mailer',
                 text: 'Testing',

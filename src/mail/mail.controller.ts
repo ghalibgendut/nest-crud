@@ -1,4 +1,4 @@
-import { Controller, Post, HttpStatus } from '@nestjs/common';
+import { Controller, Post, HttpStatus, Body } from '@nestjs/common';
 import { MailService } from "./mail.service";
 
 @Controller('mail')
@@ -7,9 +7,9 @@ export class MailController {
 
     // Send Email
     @Post('email')
-    async sendEmail() {
+    async sendEmail(@Body() body: string) {
         try {
-            const send = await this.mailService.mailing 
+            const send = await this.mailService.mailing(body)
             return {
                 statusCode: HttpStatus.OK,
                 message: "email sent",
