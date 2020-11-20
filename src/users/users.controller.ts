@@ -75,9 +75,9 @@ export class UsersController {
 
     // Send Email
     @Post('email')
-    async sendEmail() {
+    async sendEmail(@Body() body:string) {
         try {
-            const send = await this.userService.mailing()
+            const send = await this.userService.mailing(body)
             return {
                 statusCode: HttpStatus.OK,
                 message: "email sent",

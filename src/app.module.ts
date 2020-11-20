@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
-// import { MailService } from './mail/mail.service';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -13,6 +13,7 @@ import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handleba
     MongooseModule.forRoot('mongodb://localhost:27017/books_db'), 
     UsersModule, 
     AuthModule,
+    MailModule,
     MailerModule.forRoot({
       transport: {
         host: 'smtp.gmail.com',

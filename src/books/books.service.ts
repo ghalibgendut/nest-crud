@@ -52,10 +52,10 @@ export class BooksService {
         let book;
         try {
             book = await this.bookModel.findById(id).exec()
+            if(!book) {
+                throw new NotFoundException('Could not find book.')
+            }
         } catch (err) {
-            throw new NotFoundException('Could not find book.')
-        }
-        if(!book) {
             throw new NotFoundException('Could not find book.')
         }
 
