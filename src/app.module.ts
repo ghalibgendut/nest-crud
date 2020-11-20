@@ -15,13 +15,17 @@ import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handleba
     AuthModule,
     MailerModule.forRoot({
       transport: {
-        host: 'localhost',
-        port: 2020,
+        host: 'smtp.gmail.com',
+        port: 465,
         ignoreTLS: true,
-        secure: false,
+        secure: true, // use 465 for true
         auth: {
+          type: 'OAuth2',
           user: 'putrinining89@gmail.com',
-          pass: 'Password@123',
+          clientId: '465429378024-0bacbkiqblsbhpevaasiv62d7mjno3ss.apps.googleusercontent.com',
+          clientSecret: 'YtJs804Z2sC0oqpkJY-SKpCd',
+          refreshToken: '1//04FKMbMNsJkaRCgYIARAAGAQSNwF-L9IrPiYIO7bITbEcaj31hTt2MElPVO35IOZB7hN3f9a3tdwCCyROYheRgR0kNv07pOZusl4',
+          accessToken: 'ya29.a0AfH6SMCw_rUo8Ltok4idmTueYLTt6UJRdUkRQsjOEHT35SFiVQb3zmpr8qehfNDxk95ZKSZOiC6YOeLyt7l-ssGc3i6jzkw1GYWyhTaM-xw-o8_ImPr7niNM6yt4-d2ujndUJmvPhWY76bb8uQ3cQXz3B2yUSzSXa0PXu5XMjbc'
         },
       },
       defaults: {

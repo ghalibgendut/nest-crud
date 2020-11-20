@@ -76,11 +76,19 @@ export class UsersController {
     // Send Email
     @Post('email')
     async sendEmail() {
-        const send = await this.userService.mailing()
-        return {
-            statusCode: HttpStatus.OK,
-            message: "email sent",
-            data: send
+        try {
+            const send = await this.userService.mailing()
+            return {
+                statusCode: HttpStatus.OK,
+                message: "email sent",
+                data: send
+            }
+        } catch (err) {
+            return {
+                statusCode: HttpStatus.GATEWAY_TIMEOUT,
+                message: err.message
+            }
         }
+        
     }
 }

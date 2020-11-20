@@ -130,15 +130,13 @@ export class UsersService {
                 from: 'putrinining89@gmail.com',
                 subject: 'Testing Nest Mailer',
                 text: 'Testing',
-                html: '<html><body><h1>WELCOME</h1></body></html>'
+                html: '<h1>WELCOME</h1>'
             })
             .then((result)=>{
                 console.log(result);
-                
             })
             .catch((err)=>{
                 console.log(err);
-                
             })
     }
 }
