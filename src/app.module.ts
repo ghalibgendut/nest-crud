@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { MailModule } from './mail/mail.module';
+import { NotifGateway } from './notif.gateway';
+
 
 @Module({
   imports: [
@@ -41,8 +43,6 @@ import { MailModule } from './mail/mail.module';
       }
     }),
   ],
-  // providers: [MailService],
-  // controllers: [AppController],
-  // providers: [AppService],
+  providers: [NotifGateway],
 })
 export class AppModule {}
